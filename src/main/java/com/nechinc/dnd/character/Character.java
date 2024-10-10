@@ -1,10 +1,10 @@
 package com.nechinc.dnd.character;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.nechinc.dnd.character.model.Skill;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.Set;
 
 @Entity
 @Data
@@ -24,5 +24,11 @@ public class Character {
     private int intelligence;
     private int wisdom;
     private int charisma;
+
+    @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "character_skill_proficiencies", joinColumns = @JoinColumn(name = "character_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "skill")
+    private Set<Skill> skillProficiencies;
 
 }

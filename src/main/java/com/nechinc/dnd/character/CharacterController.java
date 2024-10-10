@@ -1,10 +1,14 @@
 package com.nechinc.dnd.character;
 
+import com.nechinc.dnd.character.constant.SkillConst;
+import com.nechinc.dnd.character.model.ClassMasteryDTO;
+import com.nechinc.dnd.character.model.Skill;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/characters")
@@ -50,5 +54,13 @@ public class CharacterController {
     @DeleteMapping("/{id}")
     public void deleteCharacter(@PathVariable Long id) {
         characterRepository.deleteById(id);
+    }
+
+    @GetMapping("/skill/{class}")
+    public ClassMasteryDTO getMasterySkills(@PathVariable("class") String skillName) {
+        ClassMasteryDTO classMasteryDTO = new ClassMasteryDTO();
+        classMasteryDTO.setClassSkills(SkillConst.getClassSkillMap().get(skillName.toLowerCase()));
+        classMasteryDTO.setCountOfSkills(SkillConst.getClassSkillCountMap().get(skillName.toLowerCase()));
+        return classMasteryDTO;
     }
 }
