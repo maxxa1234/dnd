@@ -4,6 +4,9 @@ services:
 
   #mysql service
   db:
+    image: mysql:8.0
+    volumes:
+      - /db_data:/var/lib/mysql
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root_password
@@ -15,7 +18,7 @@ services:
 
   #backend service
   backend:
-    build: .
+    image: backend
     container_name: spring-boot
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/db_name
@@ -27,13 +30,15 @@ services:
 
     #frontend service
   frontend:
-    build: .
+    image: frontend
     container_name: react-app
     ports:
       - "3000:3000"
 
+  volumes:
+    db_data:
+
   networks:
-    backend-network:
-    frontend-network:
+    network:
 
 
