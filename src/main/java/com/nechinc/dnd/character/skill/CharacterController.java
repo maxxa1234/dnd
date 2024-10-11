@@ -1,14 +1,13 @@
-package com.nechinc.dnd.character;
+package com.nechinc.dnd.character.skill;
 
+import com.nechinc.dnd.character.Character;
+import com.nechinc.dnd.character.CharacterRepository;
 import com.nechinc.dnd.character.constant.SkillConst;
 import com.nechinc.dnd.character.model.ClassMasteryDTO;
-import com.nechinc.dnd.character.model.Skill;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/characters")

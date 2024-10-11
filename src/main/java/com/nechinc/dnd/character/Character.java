@@ -1,5 +1,6 @@
 package com.nechinc.dnd.character;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nechinc.dnd.character.model.Skill;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class Character {
     @CollectionTable(name = "character_skill_proficiencies", joinColumns = @JoinColumn(name = "character_id"))
     @Enumerated(EnumType.STRING)
     @Column(name = "skill")
+    @JsonProperty("selectedSkills")
     private Set<Skill> skillProficiencies;
 
 }
