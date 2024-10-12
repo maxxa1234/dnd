@@ -1,5 +1,6 @@
 package com.nechinc.dnd.dice.controller;
 
+import com.nechinc.dnd.dice.model.DiceResult;
 import com.nechinc.dnd.dice.service.DiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class DiceController {
     private final DiceService diceService;
 
     @GetMapping
-    public List<Integer> generateValueOfDice(List<String> sizeOfDices, int countOfCubes, boolean isSum) {
+    public DiceResult generateValueOfDice(List<String> sizeOfDices, int countOfCubes, boolean isSum) {
         return diceService.calculateValueOfDice(sizeOfDices, countOfCubes, isSum);
     }
 }
