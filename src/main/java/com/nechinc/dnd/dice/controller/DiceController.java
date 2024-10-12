@@ -16,7 +16,7 @@ public class DiceController {
     private final DiceService diceService;
 
     @GetMapping
-    public int generateValueOfDice(List<String> sizeOfDices, int countOfCubes){
-        return diceService.calculateValueOfDice(sizeOfDices, countOfCubes);
+    public List<Integer> generateValueOfDice(List<String> sizeOfDices, int countOfCubes, boolean isSum) {
+        return diceService.calculateValueOfDice(sizeOfDices, countOfCubes, isSum);
     }
 }
