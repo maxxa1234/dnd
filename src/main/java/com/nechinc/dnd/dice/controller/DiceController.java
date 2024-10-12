@@ -1,12 +1,13 @@
 package com.nechinc.dnd.dice.controller;
 
-import com.nechinc.dnd.dice.model.DiceResult;
+import com.nechinc.dnd.dice.model.Dice;
+import com.nechinc.dnd.dice.model.DiceRequest;
+import com.nechinc.dnd.dice.model.DicesListDto;
 import com.nechinc.dnd.dice.service.DiceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,8 +17,10 @@ public class DiceController {
 
     private final DiceService diceService;
 
-    @GetMapping
-    public DiceResult generateValueOfDice(List<String> sizeOfDices, int countOfCubes, boolean isSum) {
-        return diceService.calculateValueOfDice(sizeOfDices, countOfCubes, isSum);
+    @PostMapping("/valuesOfDices")
+    public DicesListDto generateValueOfDice(@RequestBody DiceRequest diceRequest) {
+        System.out.println("Request body: " + diceRequest);
+        System.out.println("isSum: " + diceRequest.isSum());
+        return diceService.calculateValueOfDice(diceRequest);
     }
 }

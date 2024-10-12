@@ -1,6 +1,9 @@
 package com.nechinc.dnd.dice.service;
 
-import com.nechinc.dnd.dice.model.DiceResult;
+import com.nechinc.dnd.dice.model.Dice;
+import com.nechinc.dnd.dice.model.DiceRequest;
+import com.nechinc.dnd.dice.model.DicesListDto;
+import com.sun.jdi.IntegerType;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,16 +14,20 @@ import java.util.Random;
 public class DiceService {
     private final Random rand = new Random();
 
-    public DiceResult calculateValueOfDice(List<String> sizeOfDices, int countOfCubes, boolean isSum) {
-        List<Integer> resultsOfDices = new ArrayList<>();
-        for (int i = 0; i < countOfCubes; i++) {
-            resultsOfDices.add(rand.nextInt(1, Integer.parseInt(sizeOfDices.get(0).substring(1)) + 1));
+    public DicesListDto calculateValueOfDice(DiceRequest diceRequest) {
+        ArrayList<Dice> resultsOfDices = new ArrayList<>();
+        int sum = 0;
+
+        for (int i = 0; i < diceRequest.getCountOfCubes(); i++) {
+            resultsOfDices.add(new Dice(diceRequest.getSizeOfDices().get(i).getDice(), rand.nextInt(1,
+                    Integer.parseInt(diceRequest.getSizeOfDices().get(i).getDice().substring(1))+1)));
+            sum += resultsOfDices.get(i).getResult();
         }
 
-        if (isSum) {
-            return new DiceResult(resultsOfDices, resultsOfDices.stream().mapToInt(Integer::intValue).sum());
+        if (diceRequest.isSum()) {
+            return new DicesListDto(resultsOfDices, sum);
         }
-        return new DiceResult(resultsOfDices);
+        return new DicesListDto(resultsOfDices);
 
     }
 }
