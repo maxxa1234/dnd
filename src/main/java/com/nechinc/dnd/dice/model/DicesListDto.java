@@ -3,15 +3,19 @@ package com.nechinc.dnd.dice.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 public class DicesListDto {
-    private ArrayList<Dice> resultOfDices;
+    private List<Dice> resultOfDices;
     private int sum;
 
-    public DicesListDto(ArrayList<Dice> resultOfDices) {
+    public DicesListDto(List<Dice> resultOfDices) {
         this.resultOfDices = resultOfDices;
+
+        for (Dice d : resultOfDices) {
+            sum += d.getResult();
+        }
     }
 }
