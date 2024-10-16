@@ -11,4 +11,8 @@ public class Dice {
 
     private String dice;
     private int result;
+
+    public Dice(String dice) {
+        this.dice = dice;
+    }
 }

@@ -19,6 +19,7 @@ public class Character {
     private String race;
     private String characterClass;
     private int level;
+    private int maxHealth;
     private int strength;
     private int dexterity;
     private int constitution;
