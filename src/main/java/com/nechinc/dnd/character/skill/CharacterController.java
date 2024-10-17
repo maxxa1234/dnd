@@ -40,6 +40,7 @@ public class CharacterController {
             character.setCharacterClass(characterDetails.getCharacterClass());
             character.setLevel(characterDetails.getLevel());
             character.setMaxHealth(characterDetails.getMaxHealth());
+            character.setCurrentHealth(characterDetails.getCurrentHealth());
             character.setStrength(characterDetails.getStrength());
             character.setDexterity(characterDetails.getDexterity());
             character.setConstitution(characterDetails.getConstitution());

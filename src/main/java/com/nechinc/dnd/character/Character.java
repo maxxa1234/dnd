@@ -1,6 +1,7 @@
 package com.nechinc.dnd.character;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.nechinc.dnd.character.classes.Class;
 import com.nechinc.dnd.character.model.Skill;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -17,9 +18,13 @@ public class Character {
 
     private String name;
     private String race;
-    private String characterClass;
+
+    @Enumerated(EnumType.STRING)
+    private Class characterClass;
+
     private int level;
     private int maxHealth;
+    private int currentHealth;
     private int strength;
     private int dexterity;
     private int constitution;

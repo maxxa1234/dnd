@@ -1,19 +1,15 @@
 package com.nechinc.dnd.character.service;
 
 import com.nechinc.dnd.character.Character;
-import com.nechinc.dnd.character.constant.HealthConst;
 import com.nechinc.dnd.character.model.AbilityScore;
 import com.nechinc.dnd.character.model.Skill;
 import com.nechinc.dnd.character.util.AbilityModifierUtil;
 import com.nechinc.dnd.character.util.ProficiencyBonusUtil;
-import com.nechinc.dnd.dice.model.Dice;
-import com.nechinc.dnd.dice.model.DiceRequest;
 import com.nechinc.dnd.dice.service.DiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -61,36 +57,26 @@ public class CharacterService {
         }
     }
 
-    public int calculateCharacterMaxHealth(Character character) {
-        int characterMaxHealth = 0;
-        String characterHealthDiceByClass = HealthConst.getHealthDiceByClass().get(character.getCharacterClass());
-
-        if(character.getLevel() == 1) {
-            characterMaxHealth = Integer.parseInt(
-                    characterHealthDiceByClass
-                            .substring(1)) + character.getConstitution();
-            character.setMaxHealth(characterMaxHealth);
-            return characterMaxHealth;
-        }
-
-        int constantBonus = calculateConstantBonus(character);
-
-        for (int i = 0; i < character.getLevel()-1; i++) {
-            characterMaxHealth += diceService.calculateValueOfDice(
-                    new DiceRequest(
-                            List.of(
-                                    new Dice(characterHealthDiceByClass)), 1)).getSum();
-        }
-        characterMaxHealth += constantBonus;
+    public int calculateBasicHealth(Character character) {
+        int characterMaxHealth = Integer.parseInt(
+                character.getCharacterClass().getHealthDice()
+                        .substring(1)) + AbilityModifierUtil.getModifier(character.getConstitution());
 
         character.setMaxHealth(characterMaxHealth);
-        return characterMaxHealth;
+        character.setCurrentHealth(characterMaxHealth);
 
+        return characterMaxHealth;
     }
-    private int calculateConstantBonus(Character character){
-        int maxHealthDiceValue = Integer.parseInt(
-                HealthConst.getHealthDiceByClass()
-                        .get(character.getCharacterClass()).substring(1));
-        return maxHealthDiceValue + (character.getLevel() * character.getConstitution());
+
+    public int changeCurrentHealth(Character character, int value, boolean isAttack) {
+        if(isAttack){
+            character.setCurrentHealth(character.getMaxHealth() - value);
+            return character.getCurrentHealth();
+        }
+        character.setCurrentHealth(character.getMaxHealth() + value);
+
+        if(character.getCurrentHealth() > character.getMaxHealth()) character.setCurrentHealth(character.getMaxHealth());
+
+        return character.getCurrentHealth();
     }
 }
