@@ -25,6 +25,15 @@ public class Character {
     private int intelligence;
     private int wisdom;
     private int charisma;
+    private String backgroundStory;
+
+    @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "character_skill_background", joinColumns = @JoinColumn(name = "character_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name = "backgroundSkill")
+    @JsonProperty("backgroundSkills")
+    private Set<Skill> backgroundSkills;
+
 
     @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "character_skill_proficiencies", joinColumns = @JoinColumn(name = "character_id"))

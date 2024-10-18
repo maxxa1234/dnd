@@ -1,4 +1,4 @@
-package com.nechinc.dnd.character.skill;
+package com.nechinc.dnd.character.controller;
 
 import com.nechinc.dnd.character.Character;
 import com.nechinc.dnd.character.CharacterRepository;
