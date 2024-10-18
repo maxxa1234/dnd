@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -27,7 +29,7 @@ public class UserService {
     }
 
     public void saveUser(RegisterRequest registerRequest) {
-        if(userRepository.findByUsername(registerRequest.getUsername()) != null) {
+        if(userRepository.findByUsername(registerRequest.getUsername()).isEmpty()) {
             throw new UserAlreadyExistsException(String.format("User with username: %s, already exists.", registerRequest.getUsername()));
         }
         User user = new User();
@@ -38,14 +40,18 @@ public class UserService {
     }
 
     public String login(LoginRequest loginRequest) {
-        User user = userRepository.findByUsername(loginRequest.getUsername());
-        if(user == null) {
-            throw new UserNotFoundException("Invalid username or password.");
-        } else if (!isPasswordMatch(loginRequest.getPassword(), user.getPassword())) {
+        Optional<User> userOpt = userRepository.findByUsername(loginRequest.getUsername());
+        if (!isPasswordMatch(loginRequest.getPassword(), safeUserExtract(userOpt).getPassword())) {
             throw new InvalidPasswordException("Invalid username or password.");
         } else{
-            return jwtTokenProvider.generateToken(user.getUsername(), user.getId());
+            return jwtTokenProvider.generateToken(
+                    safeUserExtract(userOpt).getUsername(),
+                    safeUserExtract(userOpt).getId());
         }
+    }
+
+    private User safeUserExtract(Optional<User> user) {
+        return user.orElseThrow(() -> new UserNotFoundException("Invalid username or password."));
     }
 
 
