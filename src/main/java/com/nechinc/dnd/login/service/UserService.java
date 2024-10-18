@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public void saveUser(RegisterRequest registerRequest) {
-        if(userRepository.findByUsername(registerRequest.getUsername()).isEmpty()) {
+        if(userRepository.findByUsername(registerRequest.getUsername()).isPresent()) {
             throw new UserAlreadyExistsException(String.format("User with username: %s, already exists.", registerRequest.getUsername()));
         }
         User user = new User();
