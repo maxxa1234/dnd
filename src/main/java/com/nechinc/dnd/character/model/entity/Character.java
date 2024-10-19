@@ -21,7 +21,7 @@ public class Character {
 
     private String name;
     private String race;
-    @OneToOne
+    @ManyToOne
     private Class characterClass;
     private int level;
     private int strength;
