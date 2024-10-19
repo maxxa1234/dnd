@@ -2,6 +2,7 @@ package com.nechinc.dnd.character;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nechinc.dnd.character.model.Skill;
+import com.nechinc.dnd.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -42,4 +43,7 @@ public class Character {
     @JsonProperty("selectedSkills")
     private Set<Skill> skillProficiencies;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
