@@ -10,5 +10,5 @@ public record CreateCharacterRequest(String name, String race, String characterC
                                      int charisma,
                                      String backgroundStory,
                                      Set<Skill> backgroundSkills,
-                                     Set<Skill> skillProficiencies) {
+                                     Set<Skill> selectedSkills) {
 }

@@ -11,5 +11,5 @@ public record CharacterDto(UUID id, String name, String race, String characterCl
                            int charisma,
                            String backgroundStory,
                            Set<Skill> backgroundSkills,
-                           Set<Skill> skillProficiencies) {
+                           Set<Skill> selectedSkills) {
 }
