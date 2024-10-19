@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,7 +18,7 @@ import java.util.UUID;
 public class Character {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
     private String name;
@@ -34,10 +36,10 @@ public class Character {
     @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "character_skill_background", joinColumns = @JoinColumn(name = "character_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Skill> backgroundSkills;
+    private Set<Skill> backgroundSkills = new HashSet<>();
     @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "character_skill_proficiencies", joinColumns = @JoinColumn(name = "character_id"))
     @Enumerated(EnumType.STRING)
-    private Set<Skill> skillProficiencies;
+    private Set<Skill> skillProficiencies = new HashSet<>();
 
 }

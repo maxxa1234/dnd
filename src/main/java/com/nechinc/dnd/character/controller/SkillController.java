@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/character/skills")
+@RequestMapping("/api/characters/skills")
 @RequiredArgsConstructor
 public class SkillController {
 
