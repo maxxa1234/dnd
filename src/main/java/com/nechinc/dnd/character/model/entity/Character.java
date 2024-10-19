@@ -1,19 +1,23 @@
-package com.nechinc.dnd.character;
+package com.nechinc.dnd.character.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nechinc.dnd.character.model.Skill;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Character {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     private String name;
     private String race;
@@ -30,16 +34,10 @@ public class Character {
     @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "character_skill_background", joinColumns = @JoinColumn(name = "character_id"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "backgroundSkill")
-    @JsonProperty("backgroundSkills")
     private Set<Skill> backgroundSkills;
-
-
     @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "character_skill_proficiencies", joinColumns = @JoinColumn(name = "character_id"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "skill")
-    @JsonProperty("selectedSkills")
     private Set<Skill> skillProficiencies;
 
 }
