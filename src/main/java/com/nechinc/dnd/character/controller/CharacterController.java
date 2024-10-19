@@ -1,65 +1,49 @@
 package com.nechinc.dnd.character.controller;
 
-import com.nechinc.dnd.character.Character;
-import com.nechinc.dnd.character.CharacterRepository;
+import com.nechinc.dnd.character.model.dto.CharacterDto;
+import com.nechinc.dnd.character.model.dto.request.CreateCharacterRequest;
+import com.nechinc.dnd.character.model.entity.Character;
+import com.nechinc.dnd.character.repository.CharacterRepository;
 import com.nechinc.dnd.character.constant.SkillConst;
-import com.nechinc.dnd.character.model.ClassMasteryDTO;
+import com.nechinc.dnd.character.model.dto.ClassMasteryDto;
+import com.nechinc.dnd.character.service.CharacterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/characters")
 @RequiredArgsConstructor
 public class CharacterController {
 
-    private final CharacterRepository characterRepository;
+    private final CharacterService characterService;
 
     @GetMapping
-    public List<Character> getAllCharacters() {
-        return characterRepository.findAll();
+    public List<CharacterDto> getAllCharacters() {
+        return characterService.getAllCharacters();
     }
 
     @PostMapping
-    public Character createCharacter(@RequestBody Character character) {
-        return characterRepository.save(character);
+    public CharacterDto createCharacter(@RequestBody CreateCharacterRequest request) {
+        return characterService.createCharacter(request);
     }
 
     @GetMapping("/{id}")
-    public Character getCharacterById(@PathVariable Long id) {
-        return characterRepository.findById(id).orElse(null);
+    public CharacterDto getCharacterById(@PathVariable UUID id) {
+        return characterService.getCharacter(id);
     }
 
     @PutMapping("/{id}")
-    public Character updateCharacter(@PathVariable Long id, @RequestBody Character characterDetails) {
-        Character character = characterRepository.findById(id).orElse(null);
-        if (character != null) {
-            character.setName(characterDetails.getName());
-            character.setRace(characterDetails.getRace());
-            character.setCharacterClass(characterDetails.getCharacterClass());
-            character.setLevel(characterDetails.getLevel());
-            character.setStrength(characterDetails.getStrength());
-            character.setDexterity(characterDetails.getDexterity());
-            character.setConstitution(characterDetails.getConstitution());
-            character.setIntelligence(characterDetails.getIntelligence());
-            character.setWisdom(characterDetails.getWisdom());
-            character.setCharisma(characterDetails.getCharisma());
-            return characterRepository.save(character);
-        }
-        return null;
+    public CharacterDto updateCharacter(@PathVariable UUID id, @RequestBody CreateCharacterRequest request) {
+        return characterService.updateCharacter(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCharacter(@PathVariable Long id) {
-        characterRepository.deleteById(id);
+    public void deleteCharacter(@PathVariable UUID id) {
+        characterService.deleteCharacter(id);
     }
 
-    @GetMapping("/skill/{class}")
-    public ClassMasteryDTO getMasterySkills(@PathVariable("class") String skillName) {
-        ClassMasteryDTO classMasteryDTO = new ClassMasteryDTO();
-        classMasteryDTO.setClassSkills(SkillConst.getClassSkillMap().get(skillName.toLowerCase()));
-        classMasteryDTO.setCountOfSkills(SkillConst.getClassSkillCountMap().get(skillName.toLowerCase()));
-        return classMasteryDTO;
-    }
+
 }
