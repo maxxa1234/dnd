@@ -18,6 +18,7 @@ public class CharacterService {
 
     private final CharacterRepository characterRepository;
     private final CharacterMapper characterMapper;
+    private final ClassService classService;
 
     public List<CharacterDto> getAllCharacters() {
         return characterRepository.findAll().stream().map(characterMapper::toDto).toList();
@@ -38,7 +39,7 @@ public class CharacterService {
         Character character = getCharacterById(id);
         character.setName(request.name());
         character.setRace(request.race());
-        //character.setCharacterClass(request.characterClass());
+        character.setCharacterClass(classService.getByName(request.characterClass()));
         character.setLevel(request.level());
         character.setStrength(request.strength());
         character.setDexterity(request.dexterity());
