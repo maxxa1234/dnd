@@ -1,6 +1,6 @@
 package com.nechinc.dnd.character.model.dto;
 
-import com.nechinc.dnd.character.model.Skill;
+import com.nechinc.dnd.character.model.SkillEnum;
 
 import java.util.Set;
 import java.util.UUID;
@@ -10,6 +10,6 @@ public record CharacterDto(UUID id, String name, String race, String characterCl
                            int wisdom,
                            int charisma,
                            String backgroundStory,
-                           Set<Skill> backgroundSkills,
-                           Set<Skill> selectedSkills) {
+                           Set<SkillEnum> backgroundSkills,
+                           Set<SkillEnum> selectedSkills) {
 }

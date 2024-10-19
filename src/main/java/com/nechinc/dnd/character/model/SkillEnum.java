@@ -1,6 +1,11 @@
 package com.nechinc.dnd.character.model;
 
-public enum Skill {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public enum SkillEnum {
     ATHLETICS(AbilityScore.STRENGTH),
     ACROBATICS(AbilityScore.DEXTERITY),
     SLEIGHT_OF_HAND(AbilityScore.DEXTERITY),
@@ -21,12 +26,4 @@ public enum Skill {
     PERSUASION(AbilityScore.CHARISMA);
 
     private final AbilityScore abilityScore;
-
-    Skill(AbilityScore abilityScore) {
-        this.abilityScore = abilityScore;
-    }
-
-    public AbilityScore getAbilityScore() {
-        return abilityScore;
-    }
 }

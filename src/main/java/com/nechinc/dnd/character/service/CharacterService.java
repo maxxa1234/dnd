@@ -38,7 +38,7 @@ public class CharacterService {
         Character character = getCharacterById(id);
         character.setName(request.name());
         character.setRace(request.race());
-        character.setCharacterClass(request.characterClass());
+        //character.setCharacterClass(request.characterClass());
         character.setLevel(request.level());
         character.setStrength(request.strength());
         character.setDexterity(request.dexterity());

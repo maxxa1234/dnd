@@ -1,7 +1,7 @@
 package com.nechinc.dnd.dice.controller;
 
-import com.nechinc.dnd.dice.model.DiceRequest;
-import com.nechinc.dnd.dice.model.DicesListDto;
+import com.nechinc.dnd.dice.model.dto.RollDiceResultDto;
+import com.nechinc.dnd.dice.model.request.RollDiceRequest;
 import com.nechinc.dnd.dice.service.DiceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +17,8 @@ public class DiceController {
     private final DiceService diceService;
 
     @PostMapping("/roll")
-    public DicesListDto generateValueOfDice(@RequestBody DiceRequest diceRequest) {
-        System.out.println("Request body: " + diceRequest);
-        return diceService.calculateValueOfDice(diceRequest);
+    public RollDiceResultDto rollDice(@RequestBody RollDiceRequest rollDiceRequest) {
+        System.out.println("Request body: " + rollDiceRequest);
+        return diceService.rollDice(rollDiceRequest);
     }
 }
