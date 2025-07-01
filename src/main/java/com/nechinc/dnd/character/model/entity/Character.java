@@ -1,11 +1,9 @@
 package com.nechinc.dnd.character.model.entity;
 
-import com.nechinc.dnd.character.model.Skill;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +21,8 @@ public class Character {
 
     private String name;
     private String race;
-    private String characterClass;
+    @ManyToOne
+    private Class characterClass;
     private int level;
     private int strength;
     private int dexterity;
@@ -33,13 +32,19 @@ public class Character {
     private int charisma;
     private String backgroundStory;
 
-    @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "character_skill_background", joinColumns = @JoinColumn(name = "character_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Skill> backgroundSkills = new HashSet<>();
-    @ElementCollection(targetClass = Skill.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "character_skill_proficiencies", joinColumns = @JoinColumn(name = "character_id"))
-    @Enumerated(EnumType.STRING)
-    private Set<Skill> skillProficiencies = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "character_background_skills",
+            joinColumns = {@JoinColumn(name = "class_id")},
+            inverseJoinColumns = {@JoinColumn(name = "skill_id")}
+    )
+    private Set<Skill> selectedBackgroundSkills = new HashSet<>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "character_selected_class_skills",
+            joinColumns = {@JoinColumn(name = "class_id")},
+            inverseJoinColumns = {@JoinColumn(name = "skill_id")}
+    )
+    private Set<Skill> selectedClassSkills = new HashSet<>();
 }

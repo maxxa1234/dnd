@@ -1,29 +1,29 @@
 package com.nechinc.dnd.character.util;
 
+import com.nechinc.dnd.character.model.SkillEnum;
 import com.nechinc.dnd.character.model.entity.Character;
 import com.nechinc.dnd.character.model.AbilityScore;
-import com.nechinc.dnd.character.model.Skill;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SkillModifierCalculator {
 
-    public static Map<Skill, Integer> calculateSkillModifiers(Character character) {
-        Map<Skill, Integer> skillModifiers = new HashMap<>();
+    public static Map<SkillEnum, Integer> calculateSkillModifiers(Character character) {
+        Map<SkillEnum, Integer> skillModifiers = new HashMap<>();
 
         int proficiencyBonus = ProficiencyBonusUtil.getProficiencyBonus(character.getLevel());
 
-        for (Skill skill : Skill.values()) {
-            int abilityScore = getAbilityScore(character, skill.getAbilityScore());
+        for (SkillEnum skillEnum : SkillEnum.values()) {
+            int abilityScore = getAbilityScore(character, skillEnum.getAbilityScore());
 
             int skillModifier = AbilityModifierUtil.getModifier(abilityScore);
 
-            if (character.getSkillProficiencies() != null && character.getSkillProficiencies().contains(skill)) {
+            if (character.getSelectedClassSkills().contains(skillEnum)) {
                 skillModifier += proficiencyBonus;
             }
 
-            skillModifiers.put(skill, skillModifier);
+            skillModifiers.put(skillEnum, skillModifier);
         }
 
         return skillModifiers;

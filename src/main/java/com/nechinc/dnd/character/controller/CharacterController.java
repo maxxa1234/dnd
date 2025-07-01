@@ -1,16 +1,15 @@
 package com.nechinc.dnd.character.controller;
 
+import com.nechinc.dnd.character.model.SkillEnum;
 import com.nechinc.dnd.character.model.dto.CharacterDto;
 import com.nechinc.dnd.character.model.dto.request.CreateCharacterRequest;
-import com.nechinc.dnd.character.model.entity.Character;
-import com.nechinc.dnd.character.repository.CharacterRepository;
-import com.nechinc.dnd.character.constant.SkillConst;
-import com.nechinc.dnd.character.model.dto.ClassMasteryDto;
 import com.nechinc.dnd.character.service.CharacterService;
+import com.nechinc.dnd.character.service.CharacterSkillsModifiersCalculatorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -19,6 +18,7 @@ import java.util.UUID;
 public class CharacterController {
 
     private final CharacterService characterService;
+    private final CharacterSkillsModifiersCalculatorService characterSkillsModifiersCalculatorService;
 
     @GetMapping
     public List<CharacterDto> getAllCharacters() {
@@ -33,6 +33,11 @@ public class CharacterController {
     @GetMapping("/{id}")
     public CharacterDto getCharacterById(@PathVariable UUID id) {
         return characterService.getCharacter(id);
+    }
+
+    @GetMapping("/skills/modifiers/calculate/{id}")
+    public Map<SkillEnum, Integer> calculateSkillModifiers(@PathVariable UUID id) {
+        return characterSkillsModifiersCalculatorService.calculateSkillModifiers(id);
     }
 
     @PutMapping("/{id}")
